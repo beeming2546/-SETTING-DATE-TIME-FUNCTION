@@ -1,0 +1,194 @@
+void updateRTC() {
+  lcd.setCursor(0, 0);
+  lcd.write(2);
+  if (digitalRead(btnOK) == LOW) {
+    submode++;
+    if (submode > 7) {
+      submode = 0;
+    }
+    delay(200);
+    lcd.clear();
+  }
+
+  if (submode == 0) {
+    lcd.setCursor(2, 0);
+    lcd.print(" Set Date/Time?");
+    lcd.setCursor(0, 1);
+    lcd.print("Press OK button");
+  }
+  if (submode == 1) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Month");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      M++;
+      if (M == 13) {
+        M = 1;
+      }
+      delay(200);
+    }
+    switch (M) {
+      case 1: lcd.print("January     ");
+        break;
+      case 2: lcd.print("February    ");
+        break;
+      case 3: lcd.print("March       ");
+        break;
+      case 4: lcd.print("April       ");
+        break;
+      case 5: lcd.print("May         ");
+        break;
+      case 6: lcd.print("June        ");
+        break;
+      case 7: lcd.print("July        ");
+        break;
+      case 8: lcd.print("August      ");
+        break;
+      case 9: lcd.print("September   ");
+        break;
+      case 10: lcd.print("October     ");
+        break;
+      case 11: lcd.print("November    ");
+        break;
+      case 12: lcd.print("December    ");
+        break;
+    }
+  }
+  if (submode == 2) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Day");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      D++;
+      if (D == 32) {
+        D = 1;
+      }
+      delay(200);
+    }
+    lcd.print(D);
+    lcd.print(" ");
+  }
+
+  if (submode == 3) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Year");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      Y++;
+      if (Y == 2099) {
+        Y = 2000;
+      }
+      delay(200);
+    }
+    lcd.print(Y);
+  }
+  if (submode == 4) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Day of the Week");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      day++;
+      if (day == 8) {
+        day = 1;
+      }
+      delay(200);
+    }
+    switch (day) {
+      case 1: lcd.print("Sunday      ");
+        break;
+      case 2: lcd.print("Monday      ");
+        break;
+      case 3: lcd.print("Tuesday     ");
+        break;
+      case 4: lcd.print("Wednesday   ");
+        break;
+      case 5: lcd.print("Thursday    ");
+        break;
+      case 6: lcd.print("Friday      ");
+        break;
+      case 7: lcd.print("Saturday    ");
+        break;
+    }
+  }
+  if (submode == 5) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Hour");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      h++;
+      if (h == 24) {
+        h = 0;
+      }
+      delay(200);
+    }
+    if (h > 12) {
+      lcd.print(h - 12);
+      lcd.print(" ");
+    }
+    else if (h == 0) {
+      lcd.print("12");
+      lcd.print(" ");
+    }
+    else {
+      lcd.print(h);
+      lcd.print(" ");
+
+    }
+    if (h >= 12) {
+      lcd.setCursor(9, 1);
+      lcd.print("PM");
+    }
+    else {
+      lcd.setCursor(9, 1);
+      lcd.print("AM");
+    }
+
+  }
+  if (submode == 6) {
+    lcd.setCursor(2, 0);
+    lcd.print("Set Minutes");
+    lcd.setCursor(0, 1);
+    lcd.print("--> ");
+    if (digitalRead(btnChange) == LOW) {
+      m++;
+      if (m == 60) {
+        m = 0;
+      }
+      delay(200);
+    }
+    lcd.print(m);
+    lcd.print(" ");
+  }
+  if (submode == 7) {
+    lcd.setCursor(2, 0);
+    lcd.print("Date & Time");
+    lcd.setCursor(0, 1);
+    lcd.print("Updating");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    myRTC.setDS1302Time(00, m, h, day, D, M, Y);
+    delay(200);
+    lcd.clear();
+    mode = 1;
+  }
+}
+
